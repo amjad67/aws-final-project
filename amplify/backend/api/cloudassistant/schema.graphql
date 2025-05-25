@@ -1,0 +1,14 @@
+type Conversation @model @auth(rules:  [{ allow: private, provider: userPools }]) {
+  id: ID!
+  userId: ID!
+  messages: [Message] @hasMany
+  createdAt: AWSDateTime
+}
+
+type Message @model @auth(rules: [{ allow: private, provider: userPools }]) {
+  id: ID!
+  conversationId: ID! @index(name: "byConversation", sortKeyFields: ["createdAt"])
+  sender: String!
+  content: String!
+  createdAt: AWSDateTime
+}
